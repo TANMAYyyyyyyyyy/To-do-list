@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODOLIST</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      * {
+        padding: 0px;
+        margin: 0px;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        margin: 5px;
+      }
+      .todolist {
+        height: 300px;
+        width: 25%;
+        border: 2px solid;
+        padding: 5px;
+        margin: 2px;
+        border-radius: 5px;
+        overflow-y: scroll;
+      }
+
+      .inputbox {
+        padding: 2px;
+        border: none;
+      }
+      button.add {
+        border: none;
+        background: black;
+        color: white;
+        padding: 2px;
+      }
+      .newtask {
+        border-color: aqua;
+        background: #d9a6a6;
+        border: 2px solid;
+        padding: 5px;
+      }
+      .TASK {
+        width: 100%;
+        height: 100%;
+      }
+      .task {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        margin: 10px;
+        background-color: #c4c4c4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="todolist">
+      <div class="newtask">
+        <input type="text" name="" id="inputbox" placeholder="ADDTASK" />
+        <button class="add" onclick="ADD()">ADD</button>
+      </div>
+      <div class="TASK"></div>
+    </div>
+    <script>
+      
+      
+      if(localStorage.length == 0) {
+        localStorage.setItem("alltask", "[]");
+        // alert("Please Enter Task");
+      }
+      let inputbox = document.querySelector("#inputbox");
+      let todolist = document.querySelector(".TASK");
+
+      function ADD() {
+        alltask = JSON.parse(localStorage["alltask"]);
+        alltask.push(inputbox.value);
+        localStorage["alltask"] = JSON.stringify(alltask);    
+        showtask();
+      
+
+      }
+      function showtask() {
+        alltask = JSON.parse(localStorage["alltask"]);
+        todolist.innerHTML = "";
+        for (let i = 0; i < alltask.length; i++) {
+          let list = document.createElement("li");
+          list.classList.add("task");
+          list.innerHTML = `
+             <span> ${alltask[i]}</span>
+             <button onclick ="removetask(${i})"> <i class="fa-solid fa-trash deletebtn"><i>  </button>`;
+          todolist.appendChild(list);
+        }
+      }
+
+      function removetask(index){
+        alltask =JSON.parse(localStorage["alltask"]);
+        alltask.splice(index,1);
+        localStorage["alltask"]=JSON.stringify(alltask);
+        showtask();
+      }
+
+      showtask();
+    </script>
+  </body>
+</html>
